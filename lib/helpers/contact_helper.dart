@@ -1,6 +1,6 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:async/async.dart';
+import 'dart:async';
 
 //Definindo as colunas
 final String contactTable = 'contactTable';
