@@ -1,3 +1,4 @@
+//imports packages intern
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
@@ -63,6 +64,44 @@ class ContactHelper {
     } else {
       return null;
     }
+  }
+
+  //função deletar contato
+  Future<int> deleteContact(int id) async {
+    Database dbContact = await db;
+    return await dbContact
+        .delete(contactTable, where: '$idColumn = ?', whereArgs: [id]);
+  }
+
+  //função alterar ou atualizar um contato
+  Future<int> updateContact(Contact contact) async {
+    Database dbContact = await db;
+    return await dbContact.update(contactTable, contact.toMap(),
+        where: '$idColumn = ?', whereArgs: [contact.id]);
+  }
+
+  //função para buscar todos os contatos
+  Future<List> getAllContacts() async {
+    Database dbContact = await db;
+    List listMap = await dbContact.rawQuery('SELECT * FROM $contactTable');
+    List<Contact> listContact = List();
+    for (Map m in listMap) {
+      listContact.add(Contact.fromMap(m));
+    }
+    return listContact;
+  }
+
+  //função ler a quantidade de todos os contatos da lista
+  Future<int> getNumber() async {
+    Database dbContact = await db;
+    return Sqflite.firstIntValue(
+        await dbContact.rawQuery('SELECT COUNT(*) FROM $contactTable'));
+  }
+
+  //função fechar o banco de dados
+  Future close() async {
+    Database dbContact = await db;
+    dbContact.close();
   }
 }
 
