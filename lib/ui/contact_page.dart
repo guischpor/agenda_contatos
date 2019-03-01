@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:agenda_contatos/helpers/contact_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ContactPage extends StatefulWidget {
   final Contact contact;
@@ -77,6 +79,9 @@ class _ContactPageState extends State<ContactPage> {
                             : AssetImage('images/avatarNeutro.png')),
                   ),
                 ),
+                onTap: () {
+                  _showOptions(context);
+                },
               ),
               TextField(
                 controller: _nameController,
@@ -156,5 +161,48 @@ class _ContactPageState extends State<ContactPage> {
     } else {
       return Future.value(true);
     }
+  }
+
+  void _showOptions(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return BottomSheet(
+            onClosing: () {},
+            builder: (context) {
+              return Container(
+                padding: EdgeInsets.all(10.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: FlatButton(
+                        child: Icon(
+                          Icons.camera,
+                          size: 80,
+                          color: Colors.red,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: FlatButton(
+                        child: Icon(
+                          Icons.file_upload,
+                          size: 80,
+                          color: Colors.red,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        });
   }
 }
