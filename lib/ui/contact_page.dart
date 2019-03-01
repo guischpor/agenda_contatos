@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:agenda_contatos/helpers/contact_helper.dart';
@@ -39,6 +40,7 @@ class _ContactPageState extends State<ContactPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
+      onWillPop: _requestPop,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red,
@@ -122,5 +124,37 @@ class _ContactPageState extends State<ContactPage> {
         ),
       ),
     );
+  }
+
+  //função retorna uma informação alertando se desaja sair sem salvar o contato
+  Future<bool> _requestPop() async {
+    if (_userEdited) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Descartar Alterações'),
+              content: Text('Se sair as alterações serão perdidas.'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Cancelar'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                FlatButton(
+                  child: Text('Sim'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            );
+          });
+      return Future.value(false);
+    } else {
+      return Future.value(true);
+    }
   }
 }
