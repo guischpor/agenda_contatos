@@ -184,7 +184,16 @@ class _ContactPageState extends State<ContactPage> {
                           size: 80,
                           color: Colors.red,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          ImagePicker.pickImage(source: ImageSource.camera)
+                              .then((file) {
+                            if (file == null) return;
+                            setState(() {
+                              _editedContact.img = file.path;
+                            });
+                            Navigator.pop(context);
+                          });
+                        },
                       ),
                     ),
                     Padding(
@@ -195,7 +204,16 @@ class _ContactPageState extends State<ContactPage> {
                           size: 80,
                           color: Colors.red,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          ImagePicker.pickImage(source: ImageSource.gallery)
+                              .then((file) {
+                            if (file == null) return;
+                            setState(() {
+                              _editedContact.img = file.path;
+                            });
+                            Navigator.pop(context);
+                          });
+                        },
                       ),
                     ),
                   ],
