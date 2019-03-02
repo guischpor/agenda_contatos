@@ -74,6 +74,7 @@ class _ContactPageState extends State<ContactPage> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
+                        fit: BoxFit.cover,
                         image: _editedContact.img != null
                             ? FileImage(File(_editedContact.img))
                             : AssetImage('images/avatarNeutro.png')),
@@ -174,46 +175,70 @@ class _ContactPageState extends State<ContactPage> {
                 padding: EdgeInsets.all(10.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.all(10.0),
-                      child: FlatButton(
-                        child: Icon(
-                          Icons.camera,
-                          size: 80,
-                          color: Colors.red,
-                        ),
-                        onPressed: () {
-                          ImagePicker.pickImage(source: ImageSource.camera)
-                              .then((file) {
-                            if (file == null) return;
-                            setState(() {
-                              _editedContact.img = file.path;
-                            });
-                            Navigator.pop(context);
-                          });
-                        },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          FlatButton(
+                            child: Icon(
+                              Icons.camera,
+                              size: 80,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              ImagePicker.pickImage(source: ImageSource.camera)
+                                  .then((file) {
+                                if (file == null) return;
+                                setState(() {
+                                  _editedContact.img = file.path;
+                                });
+                                Navigator.pop(context);
+                              });
+                            },
+                          ),
+                          Text(
+                            'Câmera',
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.all(10.0),
-                      child: FlatButton(
-                        child: Icon(
-                          Icons.file_upload,
-                          size: 80,
-                          color: Colors.red,
-                        ),
-                        onPressed: () {
-                          ImagePicker.pickImage(source: ImageSource.gallery)
-                              .then((file) {
-                            if (file == null) return;
-                            setState(() {
-                              _editedContact.img = file.path;
-                            });
-                            Navigator.pop(context);
-                          });
-                        },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          FlatButton(
+                            child: Icon(
+                              Icons.photo_library,
+                              size: 80,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              ImagePicker.pickImage(source: ImageSource.gallery)
+                                  .then((file) {
+                                if (file == null) return;
+                                setState(() {
+                                  _editedContact.img = file.path;
+                                });
+                                Navigator.pop(context);
+                              });
+                            },
+                          ),
+                          Text(
+                            'Galeria',
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                     ),
                   ],
