@@ -16,6 +16,9 @@ class _ContactPageState extends State<ContactPage> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
+  final _text = TextEditingController();
+
+  bool _validate = false;
 
   final _nameFocus = FocusNode();
 
@@ -39,6 +42,15 @@ class _ContactPageState extends State<ContactPage> {
   }
 
   @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _text.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _requestPop,
@@ -54,7 +66,31 @@ class _ContactPageState extends State<ContactPage> {
               Navigator.pop(context, _editedContact);
             } else {
               FocusScope.of(context).requestFocus(_nameFocus);
+              /*
+              setState(() {
+                _nameController.text.isEmpty
+                    ? _validate = true
+                    : _validate = false;
+              });
+              */
             }
+
+            /*
+            if (_nameController.text.length > 0 &&
+                _emailController.text.length > 0 &&
+                _phoneController.text.length > 0) {
+              Navigator.pop(context, _editedContact);
+            } else {
+              setState(() {
+                _nameController.text.isEmpty
+                    ? _validate = true
+                    : _validate = false;
+                _emailController.text.isEmpty
+                    ? _validate = true
+                    : _validate = false;
+              });
+            }
+            */
           },
           child: Icon(
             Icons.save,
@@ -89,6 +125,7 @@ class _ContactPageState extends State<ContactPage> {
                 decoration: InputDecoration(
                   labelText: 'Nome',
                   labelStyle: TextStyle(fontSize: 20.0, color: Colors.red),
+                  errorText: _validate ? 'Preencha o seu nome' : null,
                 ),
                 onChanged: (text) {
                   _userEdited = true;
@@ -103,6 +140,7 @@ class _ContactPageState extends State<ContactPage> {
                 decoration: InputDecoration(
                   labelText: 'Email',
                   labelStyle: TextStyle(fontSize: 20.0, color: Colors.red),
+                  errorText: _validate ? 'Preencha o seu email' : null,
                 ),
                 onChanged: (text) {
                   _userEdited = true;
@@ -116,6 +154,7 @@ class _ContactPageState extends State<ContactPage> {
                 decoration: InputDecoration(
                   labelText: 'Phone',
                   labelStyle: TextStyle(fontSize: 20.0, color: Colors.red),
+                  errorText: _validate ? 'Preencha o seu phone' : null,
                 ),
                 onChanged: (text) {
                   _userEdited = true;
