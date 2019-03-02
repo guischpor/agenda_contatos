@@ -22,6 +22,7 @@ dependencies:
   sqflite: any
   url_launcher: ^3.0.2
   image_picker: ^0.4.10
+  flutter_launcher_icons: ^0.7.0
 
 dev_dependencies:
   flutter_test:
@@ -65,3 +66,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "icons/contacts_agenda_red.png"
