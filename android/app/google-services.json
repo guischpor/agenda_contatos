@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "532808723794-lqk5quuig44an28llfh2hjl3j2ei66q1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.agendacontatos",
+            "certificate_hash": "3a9b6881f3c5739a73edd8b1c7395b2dd21e218f"
+          }
+        },
+        {
           "client_id": "532808723794-jaupl0m0i2fsptcd8184pptat515qtr2.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "532808723794-jaupl0m0i2fsptcd8184pptat515qtr2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
