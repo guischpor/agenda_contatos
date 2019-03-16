@@ -22,26 +22,26 @@ class _HomeState extends State<Home> {
   //instancia uma variavel da lista vazia
   List<Contact> contacts = List();
 
-/*
-  @override
-  void initState() {
-    super.initState();
+  final googleSignIn = GoogleSignIn();
+  final auth = FirebaseAuth.instance;
 
-    Contact c = Contact();
-    c.name = 'Guilherme Portela';
-    c.email = 'teste@teste.com';
-    c.phone = '545454324543';
-    c.img = 'imgteste';
+//função que verifica se o usuario está online ou faca o login
+  Future<Null> _ensureLoggedIn() async {
+    GoogleSignInAccount user = googleSignIn.currentUser;
+    if (user == null) {
+      user = await googleSignIn.signInSilently();
+    }
 
-    helper.saveContact(c);
-
-    helper.getAllContacts().then((list) {
-      print(list);
-    });
+    if (user == null) {
+      user = await googleSignIn.signIn();
+    }
+    if (await auth.currentUser() == null) {
+      GoogleSignInAuthentication credentials =
+          await googleSignIn.currentUser.authentication;
+      await auth.signInWithGoogle(
+          idToken: credentials.idToken, accessToken: credentials.accessToken);
+    }
   }
-*/
-
- 
 
   @override
   void initState() {
@@ -49,6 +49,7 @@ class _HomeState extends State<Home> {
     //seta os valores na variavel de lista
     _getAllContacts();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

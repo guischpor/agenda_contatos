@@ -4,6 +4,11 @@ import 'dart:io';
 import 'package:agenda_contatos/helpers/contact_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ContactPage extends StatefulWidget {
   final Contact contact;
@@ -24,7 +29,46 @@ class _ContactPageState extends State<ContactPage> {
 
   bool _userEdited = false;
 
+  bool _isComposing = false;
+
   Contact _editedContact;
+
+  final googleSignIn = GoogleSignIn();
+  final auth = FirebaseAuth.instance;
+
+//função que verifica se o usuario está online ou faca o login
+  Future<Null> _ensureLoggedIn() async {
+    GoogleSignInAccount user = googleSignIn.currentUser;
+    if (user == null) {
+      user = await googleSignIn.signInSilently();
+    }
+
+    if (user == null) {
+      user = await googleSignIn.signIn();
+    }
+    if (await auth.currentUser() == null) {
+      GoogleSignInAuthentication credentials =
+          await googleSignIn.currentUser.authentication;
+      await auth.signInWithGoogle(
+          idToken: credentials.idToken, accessToken: credentials.accessToken);
+    }
+  }
+
+  _handleSubmitted(String text) async {
+    await _ensureLoggedIn();
+    _saveContact(name: text);
+  }
+
+  void _saveContact({String name, String email, String phone, String imgUrl}) {
+    Firestore.instance.collection('contatos').add({
+      'name': name,
+      'email': email,
+      'phone': phone,
+      'imgUrl': imgUrl,
+      'senderNamer': googleSignIn.currentUser.displayName,
+      'senderPhotoUrl': googleSignIn.currentUser.photoUrl
+    });
+  }
 
   @override
   void initState() {
@@ -66,31 +110,7 @@ class _ContactPageState extends State<ContactPage> {
               Navigator.pop(context, _editedContact);
             } else {
               FocusScope.of(context).requestFocus(_nameFocus);
-              /*
-              setState(() {
-                _nameController.text.isEmpty
-                    ? _validate = true
-                    : _validate = false;
-              });
-              */
             }
-
-            /*
-            if (_nameController.text.length > 0 &&
-                _emailController.text.length > 0 &&
-                _phoneController.text.length > 0) {
-              Navigator.pop(context, _editedContact);
-            } else {
-              setState(() {
-                _nameController.text.isEmpty
-                    ? _validate = true
-                    : _validate = false;
-                _emailController.text.isEmpty
-                    ? _validate = true
-                    : _validate = false;
-              });
-            }
-            */
           },
           child: Icon(
             Icons.save,
@@ -128,9 +148,9 @@ class _ContactPageState extends State<ContactPage> {
                   errorText: _validate ? 'Preencha o seu nome' : null,
                 ),
                 onChanged: (text) {
-                  _userEdited = true;
+                  //_userEdited = true;
                   setState(() {
-                    _editedContact.name = text;
+                    _isComposing = text.length > 0;
                   });
                 },
                 style: TextStyle(fontSize: 25.0, color: Colors.red),
@@ -226,13 +246,25 @@ class _ContactPageState extends State<ContactPage> {
                               size: 80,
                               color: Colors.red,
                             ),
-                            onPressed: () {
+                            onPressed: () async {
+                              await _ensureLoggedIn();
                               ImagePicker.pickImage(source: ImageSource.camera)
-                                  .then((file) {
-                                if (file == null) return;
-                                setState(() {
-                                  _editedContact.img = file.path;
-                                });
+                                  .then((imgFile) async {
+                                if (imgFile == null) return;
+                                StorageUploadTask task = FirebaseStorage
+                                    .instance
+                                    .ref()
+                                    .child(
+                                        googleSignIn.currentUser.id.toString() +
+                                            DateTime.now()
+                                                .millisecondsSinceEpoch
+                                                .toString())
+                                    .putFile(imgFile);
+                                StorageTaskSnapshot taskSnapshot =
+                                    await task.onComplete;
+                                String url =
+                                    await taskSnapshot.ref.getDownloadURL();
+                                _saveContact(imgUrl: url);
                                 Navigator.pop(context);
                               });
                             },
@@ -258,13 +290,25 @@ class _ContactPageState extends State<ContactPage> {
                               size: 80,
                               color: Colors.red,
                             ),
-                            onPressed: () {
+                            onPressed: () async {
+                              await _ensureLoggedIn();
                               ImagePicker.pickImage(source: ImageSource.gallery)
-                                  .then((file) {
-                                if (file == null) return;
-                                setState(() {
-                                  _editedContact.img = file.path;
-                                });
+                                  .then((imgFile) async {
+                                if (imgFile == null) return;
+                                StorageUploadTask task = FirebaseStorage
+                                    .instance
+                                    .ref()
+                                    .child(
+                                        googleSignIn.currentUser.id.toString() +
+                                            DateTime.now()
+                                                .millisecondsSinceEpoch
+                                                .toString())
+                                    .putFile(imgFile);
+                                StorageTaskSnapshot taskSnapshot =
+                                    await task.onComplete;
+                                String url =
+                                    await taskSnapshot.ref.getDownloadURL();
+                                _saveContact(imgUrl: url);
                                 Navigator.pop(context);
                               });
                             },
