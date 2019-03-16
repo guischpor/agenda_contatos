@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "549379043995",
+    "firebase_url": "https://meuapp-78da6.firebaseio.com",
+    "project_id": "meuapp-78da6",
+    "storage_bucket": "meuapp-78da6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:549379043995:android:838179bf6b0ad613",
+        "android_client_info": {
+          "package_name": "com.example.agendacontatos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "549379043995-bbfsdl49tgl01ucmugouv0uv45r0tma3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQG0cjCYfQ7hQFrqmUAFP2vm4a9F8kbhQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
