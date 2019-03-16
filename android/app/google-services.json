@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "532808723794",
+    "firebase_url": "https://agendacontato-e3246.firebaseio.com",
+    "project_id": "agendacontato-e3246",
+    "storage_bucket": "agendacontato-e3246.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532808723794:android:838179bf6b0ad613",
+        "android_client_info": {
+          "package_name": "com.example.agendacontatos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "532808723794-jaupl0m0i2fsptcd8184pptat515qtr2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsQXpD4GrbEszwIRRDc6sTSYaln8r7DUA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
