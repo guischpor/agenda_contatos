@@ -29,8 +29,6 @@ class _ContactPageState extends State<ContactPage> {
 
   bool _userEdited = false;
 
-  bool _isComposing = false;
-
   Contact _editedContact;
 
   final googleSignIn = GoogleSignIn();
@@ -54,9 +52,9 @@ class _ContactPageState extends State<ContactPage> {
     }
   }
 
-  _handleSubmitted(String text) async {
+  _handleSubmitted(String name, String email, String phone) async {
     await _ensureLoggedIn();
-    _saveContact(name: text);
+    _saveContact(name: name, email: email, phone: phone);
   }
 
   void _saveContact({String name, String email, String phone, String imgUrl}) {
@@ -71,30 +69,6 @@ class _ContactPageState extends State<ContactPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-
-    if (widget.contact == null) {
-      _editedContact = Contact();
-    } else {
-      _editedContact = Contact.fromMap(widget.contact.toMap());
-
-      _nameController.text = _editedContact.name;
-      _emailController.text = _editedContact.email;
-      _phoneController.text = _editedContact.phone;
-    }
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _phoneController.dispose();
-    _text.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _requestPop,
@@ -106,8 +80,11 @@ class _ContactPageState extends State<ContactPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            if (_editedContact.name != null && _editedContact.name.isNotEmpty) {
-              Navigator.pop(context, _editedContact);
+            if (_nameController.text != null &&
+                _nameController.text.isNotEmpty) {
+              _handleSubmitted(_nameController.text, _emailController.text,
+                  _phoneController.text);
+              Navigator.pop(context);
             } else {
               FocusScope.of(context).requestFocus(_nameFocus);
             }
@@ -148,9 +125,9 @@ class _ContactPageState extends State<ContactPage> {
                   errorText: _validate ? 'Preencha o seu nome' : null,
                 ),
                 onChanged: (text) {
-                  //_userEdited = true;
+                  _userEdited = true;
                   setState(() {
-                    _isComposing = text.length > 0;
+                    _nameController.text = text;
                   });
                 },
                 style: TextStyle(fontSize: 25.0, color: Colors.red),
@@ -164,7 +141,7 @@ class _ContactPageState extends State<ContactPage> {
                 ),
                 onChanged: (text) {
                   _userEdited = true;
-                  _editedContact.email = text;
+                  _emailController.text = text;
                 },
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(fontSize: 25.0, color: Colors.red),
@@ -178,7 +155,7 @@ class _ContactPageState extends State<ContactPage> {
                 ),
                 onChanged: (text) {
                   _userEdited = true;
-                  _editedContact.phone = text;
+                  _phoneController.text = text;
                 },
                 keyboardType: TextInputType.phone,
                 style: TextStyle(fontSize: 25.0, color: Colors.red),
