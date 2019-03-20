@@ -29,6 +29,8 @@ class _ContactPageState extends State<ContactPage> {
 
   bool _userEdited = false;
 
+  bool _isComposing = false;
+
   Contact _editedContact;
 
   final googleSignIn = GoogleSignIn();
@@ -124,10 +126,10 @@ class _ContactPageState extends State<ContactPage> {
                   labelStyle: TextStyle(fontSize: 20.0, color: Colors.red),
                   errorText: _validate ? 'Preencha o seu nome' : null,
                 ),
-                onChanged: (text) {
+                onChanged: (name) {
                   _userEdited = true;
                   setState(() {
-                    _nameController.text = text;
+                    _nameController.text = name;
                   });
                 },
                 style: TextStyle(fontSize: 25.0, color: Colors.red),
@@ -139,9 +141,9 @@ class _ContactPageState extends State<ContactPage> {
                   labelStyle: TextStyle(fontSize: 20.0, color: Colors.red),
                   errorText: _validate ? 'Preencha o seu email' : null,
                 ),
-                onChanged: (text) {
+                onChanged: (email) {
                   _userEdited = true;
-                  _emailController.text = text;
+                  _emailController.text = email;
                 },
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(fontSize: 25.0, color: Colors.red),
@@ -153,9 +155,9 @@ class _ContactPageState extends State<ContactPage> {
                   labelStyle: TextStyle(fontSize: 20.0, color: Colors.red),
                   errorText: _validate ? 'Preencha o seu phone' : null,
                 ),
-                onChanged: (text) {
+                onChanged: (phone) {
                   _userEdited = true;
-                  _phoneController.text = text;
+                  _phoneController.text = phone;
                 },
                 keyboardType: TextInputType.phone,
                 style: TextStyle(fontSize: 25.0, color: Colors.red),
