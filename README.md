@@ -1,16 +1,14 @@
-# agenda_contatos
+# App Agenda de Contatos
 
-A new Flutter project.
+App construído em Flutter.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Esse projeto é um modelo de App Agenda de Contatos construído em Flutter, como banco de dados usei o SQLITE.
 
-A few resources to get you started if this is your first Flutter project:
+- [Download da apk - Agenda de Contatos](https://drive.google.com/file/d/1Ph9ToWbFUhdVsBLO0nIfbFLHdqm53hZx/view?usp=sharing)
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+### Imagens do App Agenda de Contatos
+
+![Alt Text](https://firebasestorage.googleapis.com/v0/b/projetoflutter-d9c64.appspot.com/o/App%20Agenda%20de%20Contatos.jpg?alt=media&token=98116041-c06a-4a45-a768-f8fc8bef79fe)
